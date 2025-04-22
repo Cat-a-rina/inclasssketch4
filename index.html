@@ -1,0 +1,37 @@
+<script src="https://cdn.jsdelivr.net/gh/netizenorg/netnet-standard-library/build/nn.min.js"></script>
+<script>
+let gifs = []
+let r = 0
+
+function setup() {
+  for (let i = 0; i < 100; i++) {
+    const x = nn.random(nn.width)
+    const y = nn.random(nn.height)
+    const d = nn.random(-2, 2)
+    
+    const gif = nn.create('img')
+
+    .set('src','catgiffaster.gif')
+    .addTo('body')
+    .position(x,y) //all random spots, random x y nums
+    .set('data-delta', d)
+    
+  gifs.push(gif)
+  }
+}
+
+function draw() {
+  requestAnimationFrame(draw)
+  
+  //anothe way to do loop
+  nn.getAll('img').forEach((gif) => { //for each is a higher order func taking in another arg
+    const d = Number(gif.dataset.delta)
+    const x = gif.x + d
+    const y = gif.y + d
+    gif.position(x, y)
+  })
+}  
+  
+  nn.on('load', setup)
+  nn.on('load', draw)
+</script>
